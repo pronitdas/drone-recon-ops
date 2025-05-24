@@ -17,6 +17,7 @@ This guide covers common patterns, challenges, and solutions you'll encounter wh
 - **Performance Optimization** - Making your game run smoothly
 - **State Management** - Handling complex game states
 - **Event-Driven Architecture** - Loose coupling between systems
+- **TypeScript Patterns** - Advanced typing for game development (→ [TypeScript Patterns Guide](TYPESCRIPT_PATTERNS.md))
 - **Common Bugs** - How to avoid and fix typical issues
 
 ---

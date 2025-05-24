@@ -7,6 +7,27 @@
 
 ---
 
+## 🚀 Quick Start
+
+**Just want to get running in 10 minutes?**
+
+```bash
+# 1. Clone and setup
+git clone <your-repo-url> drone-recon-ops
+cd drone-recon-ops
+npm install
+
+# 2. Start development server
+npm run dev
+
+# 3. Open http://localhost:3000
+```
+
+**New to game development?** → Jump to [Beginner Guide](BEGINNER_GUIDE.md)  
+**Ready to build systems?** → Continue reading this setup guide
+
+---
+
 ## 🎯 What We're Building
 
 A tactical stealth game where players control surveillance drones to complete reconnaissance missions. Think of it like the drone sequences from Rainbow Six Siege, but as a full game.
