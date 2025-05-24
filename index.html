@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Drone Recon Ops - A tactical stealth reconnaissance game">
+  <meta name="keywords" content="game, stealth, tactical, reconnaissance, drone">
+  <meta name="author" content="Drone Recon Ops Team">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-username.github.io/drone-recon-ops/">
+  <meta property="og:title" content="Drone Recon Ops">
+  <meta property="og:description" content="A tactical stealth reconnaissance game where players control drones to gather intelligence while avoiding detection">
+  <meta property="og:image" content="./assets/images/og-image.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://your-username.github.io/drone-recon-ops/">
+  <meta property="twitter:title" content="Drone Recon Ops">
+  <meta property="twitter:description" content="A tactical stealth reconnaissance game where players control drones to gather intelligence while avoiding detection">
+  <meta property="twitter:image" content="./assets/images/og-image.png">
+
+  <title>Drone Recon Ops</title>
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+  <link rel="apple-touch-icon" href="./assets/images/icon-192.png">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    #game-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    #loading-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-logo {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00ff88;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      margin-bottom: 2rem;
+      animation: pulse 2s infinite;
+    }
+
+    .loading-progress {
+      width: 300px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .loading-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ff88, #00ccff);
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .loading-text {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .loading-logo {
+        font-size: 2rem;
+      }
+      
+      .loading-progress {
+        width: 250px;
+      }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .loading-logo {
+        animation: none;
+      }
+      
+      .loading-bar {
+        transition: none;
+      }
+    }
+
+    /* Game canvas styling */
+    canvas {
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* UI overlay */
+    .ui-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .ui-overlay > * {
+      pointer-events: auto;
+    }
+
+    /* Error handling */
+    .error-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid #ff0000;
+      border-radius: 8px;
+      padding: 2rem;
+      color: #ffffff;
+      text-align: center;
+      max-width: 400px;
+      z-index: 2000;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-logo">DRONE RECON OPS</div>
+      <div class="loading-progress">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <div class="loading-text" id="loading-text">Initializing systems...</div>
+    </div>
+
+    <!-- UI Overlay for HUD elements -->
+    <div class="ui-overlay" id="ui-overlay">
+      <!-- HUD elements will be dynamically added here -->
+    </div>
+
+    <!-- Error Message Template -->
+    <div id="error-template" class="error-message" style="display: none;">
+      <h3>Game Error</h3>
+      <p id="error-message">An error occurred while loading the game.</p>
+      <button onclick="location.reload()">Reload Game</button>
+    </div>
+  </div>
+
+  <!-- Game Script -->
+  <script type="module" src="/src/main.ts"></script>
+
+  <!-- Error Handling -->
+  <script>
+    window.addEventListener('error', function(event) {
+      console.error('Game Error:', event.error);
+      const errorElement = document.getElementById('error-template');
+      const errorMessage = document.getElementById('error-message');
+      if (errorElement && errorMessage) {
+        errorMessage.textContent = event.error?.message || 'Unknown error occurred';
+        errorElement.style.display = 'block';
+      }
+    });
+
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+      console.error('Unhandled Promise Rejection:', event.reason);
+      const errorElement = document.getElementById('error-template');
+      const errorMessage = document.getElementById('error-message');
+      if (errorElement && errorMessage) {
+        errorMessage.textContent = 'Failed to load game resources';
+        errorElement.style.display = 'block';
+      }
+    });
+
+    // Prevent context menu on right click (common in games)
+    document.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+    });
+
+    // Prevent text selection and drag
+    document.addEventListener('selectstart', function(event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener('dragstart', function(event) {
+      event.preventDefault();
+    });
+  </script>
+</body>
+</html> 
