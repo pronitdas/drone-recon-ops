@@ -1,19 +1,12 @@
 import { defineConfig } from 'vite';
-import eslint from 'vite-plugin-eslint';
 
 export default defineConfig({
-  plugins: [
-    eslint({
-      cache: false,
-      include: ['./src/**/*.ts', './src/**/*.tsx'],
-      exclude: ['node_modules', 'dist'],
-    }),
-  ],
+  plugins: [],
   base: './',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    minify: 'terser',
+    minify: 'esbuild',
     sourcemap: true,
     rollupOptions: {
       output: {
