@@ -7,23 +7,23 @@
 *   **Control Manager:** `DroneManager` handles swapping (`TAB`) and input routing.
 *   **Foundation:** Basic `GameScene` with static wall collisions.
 
-## Phase 2: The Detailed World (Next)
+## Phase 2: The Detailed World (✅ Done)
 **Goal:** Create a rich environment where verticality matters.
-1.  **Chunk 2.1: Advanced Collisions**
+1.  **Chunk 2.1: Advanced Collisions (✅ Done)**
     *   Implement "Low Wall" logic:
         *   `Spectre` (Air) flies *over* Low Walls (no collision).
         *   `Badger` (Ground) is blocked by Low Walls.
     *   Implement "Vents":
         *   `Spectre` is blocked.
         *   `Badger` passes through.
-2.  **Chunk 2.2: Visual Depth & Layers**
+2.  **Chunk 2.2: Visual Depth & Layers (✅ Done)**
     *   **Z-Ordering:** Ensure Ground Drone renders *below* Low Walls, Air Drone *above*.
     *   **Hiding Spots:** Create "Under Desk" zones where the Ground drone becomes invisible to AI.
-3.  **Chunk 2.3: Tilemap Integration**
+3.  **Chunk 2.3: Tilemap Integration (✅ Done)**
     *   Replace procedural blocks with a real Tiled (JSON) map.
     *   Parse custom properties (`collides: true`, `height: low`) from the map.
 
-## Phase 3: Interaction System
+## Phase 3: Interaction System (Next)
 **Goal:** Make the world tactile and solvable.
 1.  **Chunk 3.1: The Interaction Engine**
     *   Create `IInteractable` interface.
