@@ -1,0 +1,348 @@
+[gd_scene load_steps=6 format=3 uid="uid://main_game"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_game"]
+[ext_resource type="Script" path="res://scripts/drone.gd" id="2_drone"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="3_enemy"]
+[ext_resource type="Script" path="res://scripts/stealth_system.gd" id="4_stealth"]
+[ext_resource type="Script" path="res://scripts/ui_controller.gd" id="5_ui"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drone"]
+size = Vector2(40, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 200.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hearing"]
+radius = 100.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="StealthSystem" type="Node2D" parent="."]
+script = ExtResource("4_stealth")
+
+[node name="LevelEnvironment" type="Node2D" parent="."]
+script = ExtResource("res://scripts/level_environment.gd")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy1" type="RigidBody2D" parent="Enemies"]
+position = Vector2(500, 150)
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("3_enemy")
+patrol_speed = 60.0
+vision_range = 180.0
+vision_angle = 70.0
+audio_detection_range = 80.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy1"]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="VisionCone" type="Polygon2D" parent="Enemies/Enemy1"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_ui")
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BatteryPanel" type="Panel" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+
+[node name="BatteryLabel" type="Label" parent="UI/HUD/BatteryPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 5.0
+offset_right = 90.0
+offset_bottom = 25.0
+text = "BATTERY"
+horizontal_alignment = 1
+
+[node name="BatteryBar" type="ProgressBar" parent="UI/HUD/BatteryPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -45.0
+offset_right = 90.0
+offset_bottom = -10.0
+value = 100.0
+show_percentage = false
+
+[node name="DetectionPanel" type="Panel" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 100.0
+offset_right = -20.0
+offset_bottom = 160.0
+
+[node name="DetectionLabel" type="Label" parent="UI/HUD/DetectionPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 5.0
+offset_right = 90.0
+offset_bottom = 25.0
+text = "DETECTION"
+horizontal_alignment = 1
+
+[node name="DetectionBar" type="ProgressBar" parent="UI/HUD/DetectionPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -45.0
+offset_right = 90.0
+offset_bottom = -10.0
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="MissionPanel" type="Panel" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 150.0
+
+[node name="MissionLabel" type="Label" parent="UI/HUD/MissionPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 270.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(0.0, 1.0, 0.5, 1)
+text = "Mission: Surveillance"
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/HUD/MissionPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 45.0
+offset_right = 270.0
+offset_bottom = 65.0
+value = 33.0
+show_percentage = false
+
+[node name="ObjectiveList" type="VBoxContainer" parent="UI/HUD/MissionPanel"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 75.0
+offset_right = 270.0
+offset_bottom = 120.0
+
+[node name="AlertPanel" type="Panel" parent="UI/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 100.0
+offset_right = 200.0
+offset_bottom = 140.0
+
+[node name="AlertLabel" type="Label" parent="UI/HUD/AlertPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -15.0
+offset_right = 180.0
+offset_bottom = 15.0
+theme_override_colors/font_color = Color(1.0, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 24
+text = "DETECTED!"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="Panel" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+
+[node name="PauseLabel" type="Label" parent="UI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 15.0
+offset_right = 60.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0.0, 1.0, 0.5, 1)
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -70.0
+offset_right = 120.0
+offset_bottom = -30.0
+text = "RESUME"
+
+[node name="RestartButton" type="Button" parent="UI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -25.0
+offset_right = 120.0
+offset_bottom = 15.0
+text = "RESTART"
+
+[node name="GameOverScreen" type="Panel" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+
+[node name="TitleLabel" type="Label" parent="UI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1.0, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 32
+text = "MISSION FAILED"
+horizontal_alignment = 1
+
+[node name="ReasonLabel" type="Label" parent="UI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 50.0
+offset_right = 180.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "Reason here"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -35.0
+offset_right = 120.0
+offset_bottom = 5.0
+text = "RETRY"
+
+[node name="VictoryScreen" type="Panel" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+
+[node name="TitleLabel" type="Label" parent="UI/VictoryScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_top = 10.0
+offset_right = 120.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.0, 1.0, 0.5, 1)
+theme_override_font_sizes/font_size = 32
+text = "MISSION COMPLETE"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="UI/VictoryScreen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 50.0
+offset_right = 180.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+horizontal_alignment = 1
+
+[node name="NextButton" type="Button" parent="UI/VictoryScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -35.0
+offset_right = 120.0
+offset_bottom = 5.0
+text = "NEXT LEVEL"
+
+[connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI" method="_on_resume_pressed"]
+[connection signal="pressed" from="UI/PauseMenu/RestartButton" to="UI" method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/GameOverScreen/RestartButton" to="UI" method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/VictoryScreen/NextButton" to="UI" method="_on_restart_pressed"]

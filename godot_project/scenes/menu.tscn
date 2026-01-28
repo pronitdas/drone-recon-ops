@@ -1,0 +1,164 @@
+[gd_scene load_steps=3 format=3 uid="uid://main_menu"]
+
+[ext_resource type="Script" path="res://scripts/menu_controller.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.15, 0.15, 0.2, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0, 1.0, 0.5, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0, 1.0, 0.5, 1)
+theme_override_font_sizes/font_size = 48
+text = "DRONE RECON OPS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 0.7, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "Tactical Stealth Reconnaissance"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 24
+text = "START MISSION"
+
+[node name="LevelButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 20
+text = "LEVEL 1"
+
+[node name="ControlsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 20
+text = "CONTROLS"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 20
+text = "QUIT"
+
+[node name="ControlsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
+
+[node name="ControlsLabel" type="Label" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.0, 1.0, 0.5, 1)
+theme_override_font_sizes/font_size = 28
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="ControlsList" type="RichTextLabel" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -140.0
+offset_right = 220.0
+offset_bottom = 140.0
+bbcode_enabled = true
+text = "[color=#00ff88]WASD / Arrow Keys[/color] - Move drone
+[color=#00ff88]SPACE[/color] - Ascend
+[color=#00ff88]SHIFT[/color] - Descend
+[color=#00ff88]LEFT CLICK[/color] - Primary action
+[color=#00ff88]RIGHT CLICK[/color] - Secondary action
+[color=#00ff88]ESC[/color] - Pause
+
+[color=#aaaaaa]Tips:[/color]
+- Stay in shadows
+- Listen for guards
+- Manage your battery"
+fit_content = true
+
+[node name="CloseButton" type="Button" parent="ControlsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -50.0
+offset_right = 75.0
+offset_bottom = -10.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "CLOSE"
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/LevelButton" to="." method="_on_level_pressed"]
+[connection signal="pressed" from="VBoxContainer/ControlsButton" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ControlsPanel/CloseButton" to="." method="_on_close_controls_pressed"]
